@@ -1,20 +1,21 @@
 <script setup lang="ts">
-const { user, loading } = useAuth();
+const { logout } = useAuth();
+const router = useRouter();
 
-// Redirect based on auth state
-watchEffect(() => {
-  if (!loading.value) {
-    if (user.value) {
-      navigateTo('/broadcast');
-    } else {
-      navigateTo('/login');
-    }
-  }
-});
+const handleLogout = async () => {
+  await logout();
+  await router.push('/login');
+};
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-base-200">
-    <div class="loading loading-spinner loading-lg"></div>
+  <div class="min-h-screen flex flex-col items-center justify-center gap-4 bg-base-200">
+    <NuxtLink to="/broadcast" class="link link-primary text-xl">
+      Send Notifications
+    </NuxtLink>
+    
+    <button @click="handleLogout" class="btn btn-sm btn-ghost">
+      Logout
+    </button>
   </div>
 </template>
